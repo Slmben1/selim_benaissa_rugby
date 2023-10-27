@@ -7,8 +7,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Pensez à générer une nouvelle clé à l'aide de https://djecrety.ir/
-SECRET_KEY = "velicyjh0)jmde&@qj=_)hzik!&sw4ml8b92ni&!y@=cu(-hj8"
+
+SECRET_KEY = "7#w$0o5*rofgc1j7y8$lzan5a4#)qm5oa&5$yai3b6hqgji_bv"
 
 # Application definition
 
