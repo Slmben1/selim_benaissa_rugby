@@ -42,6 +42,11 @@
                             Newsletter
                         </a>
                     </li>
+                    <li>
+                        <a href="{% url "about" %}" {% if request.resolver_match.url_name == "about" %}class="active"{% endif %}>
+                            En savoir plus
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </header>
