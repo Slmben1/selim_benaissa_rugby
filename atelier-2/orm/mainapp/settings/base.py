@@ -15,6 +15,8 @@ SECRET_KEY = "7#w$0o5*rofgc1j7y8$lzan5a4#)qm5oa&5$yai3b6hqgji_bv"
 INSTALLED_APPS = [
     # On explicite l"usage de notre application pour que les templates
     # soient détectés automatiquement par Django
+    # On ajoute cet élément en première ligne du tableau pour la gestion des CORS
+    'corsheaders',
     "mainapp.apps.MainappConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -25,6 +27,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # Cette ligne est ajoutée en premier pour la gestion des CORS
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -101,6 +105,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/fr/3.2/howto/static-files/
@@ -111,3 +116,4 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/fr/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
