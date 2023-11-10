@@ -1,21 +1,41 @@
 {% extends "_base.html" %}
 
-{% block title %}Newsletter{% endblock %}
+{% block title %}À propos{% endblock %}
 
 {% block content %}
+{% load static %}
+
 <div class="container">
     <h2>En savoir plus</h2>
-    <p>Retrouvez ici tous les stades dans lesquels se dérouleront les rencontres de la Rugby Tropical Cup.</p>
-    <p>Il y a déjà {{ count }} inscrits à notre newsletter, rejoignez-les !</p>
-    {% if alert %}
-    <div class="alert alert-warning" role="alert">
-        {{ alert }}
+
+    <div>
+        <h3>Pays organisateur : Japon</h3>
+        <p>
+            Le Japon, riche de plusieurs millénaires d'histoire, est bien plus qu'une destination pour la Rugby Tropical Cup. Niché dans l'Est de l'Asie, ce pays insulaire possède un héritage culturel et historique profondément enraciné, alliant traditions séculaires et avancées technologiques modernes.
+        </p>
+        <p>
+            L'histoire du Japon remonte à des époques anciennes, marquée par l'ère des samouraïs, des shoguns et des empereurs. Sa culture est teintée de légendes, de mythes et de codes d'honneur transmis à travers les générations. Les périodes médiévales ont vu l'épanouissement des arts, de l'artisanat et des rituels traditionnels, établissant les fondements de l'esthétique japonaise distincte que l'on connaît aujourd'hui.
+        </p>
+        <p>
+            Explorez les vestiges historiques du Japon, des temples antiques aux châteaux emblématiques, en passant par les jardins zen paisibles qui reflètent la spiritualité et la philosophie japonaises. L'histoire tumultueuse du Japon, marquée par des périodes de guerre, de paix et de transformation, a façonné son identité moderne tout en préservant son héritage culturel unique.
+        </p>
+        <img src="{% static 'japon.jpg' %}" alt="Image du Japon">
     </div>
-    {% endif %}
-    <form method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="S'inscrire">
-    </form>
+    
+
+    <div>
+        <h3>Le Rugby à XV</h3>
+        <p>
+            Le Rugby à XV, souvent considéré comme la forme classique et emblématique du rugby, incarne l'esprit de compétition, de camaraderie et de passion pour ce sport. Joué sur un terrain rectangulaire, ce sport exigeant implique quinze joueurs de chaque équipe dans des affrontements intenses, alliant force, agilité et stratégie.
+        </p>
+        <p>
+            Les valeurs du rugby, telles que le respect, la solidarité et l'esprit sportif, sont au cœur de chaque match de Rugby à XV. Les joueurs s'engagent dans des phases de jeu variées, combinant des actions de mêlées puissantes, des touches précises, des courses dynamiques et des coups de pied tactiques pour marquer des essais, des transformations et des pénalités.
+        </p>
+        <p>
+            Ce sport captivant réunit des fans du monde entier, nourrissant leur passion pour le jeu et créant des moments mémorables lors de compétitions prestigieuses telles que les coupes du monde, où les nations s'affrontent pour la gloire et l'insigne honneur de représenter leur pays.
+        </p>
+        <img src="{% static 'rugby.jpg' %}" alt="Image du Rugby à XV">
+    </div>
+    
 </div>
 {% endblock %}
