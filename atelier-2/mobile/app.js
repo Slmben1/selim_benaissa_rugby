@@ -1,41 +1,49 @@
-// Attente du chargement complet du DOM avant d'exécuter le code
+// Attend que la page soit complètement chargée avant d'exécuter du code
 document.addEventListener('DOMContentLoaded', () => {
-    // Récupération des données depuis l'API
+    // Requête pour obtenir les détails des événements
     fetch('http://127.0.0.1:8000/api/events')
-        .then(response => response.json()) // Conversion de la réponse en JSON
+        .then(response => response.json())  // Convertit la réponse en données JSON
         .then(data => {
-            renderEvents(data); // Appel de la fonction pour afficher les événements
+            // Effectue des requêtes parallèles pour obtenir les stades et les équipes
+            Promise.all([
+                fetch('http://127.0.0.1:8000/api/stadiums').then(response => response.json()),
+                fetch('http://127.0.0.1:8000/api/teams').then(response => response.json())
+            ])
+            // Une fois les détails récupérés, affiche les événements
+            .then(([stades, equipes]) => afficherEvenements(data, stades, equipes))
+            .catch(erreur => console.error('Erreur de récupération :', erreur));
         })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des données :', error);
-        });
+        .catch(erreur => console.error('Erreur de récupération :', erreur));
 });
 
-// Fonction pour afficher les événements
-function renderEvents(events) {
-    const eventsSection = document.getElementById('events'); // Sélection de la section pour afficher les événements
+// Fonction pour afficher les détails des événements
+function afficherEvenements(evenements, stades, equipes) {
+    const sectionEvenements = document.getElementById('events'); // Sélectionne la section des événements dans le HTML
 
-    // Parcours de chaque événement pour les afficher
-    events.forEach(event => {
-        const eventDiv = document.createElement('div'); // Création d'une nouvelle division pour chaque événement
-        eventDiv.classList.add('event-item'); // Ajout de classe pour le style CSS
+    // Parcourt chaque événement pour les afficher individuellement
+    evenements.forEach(evenement => {
+        const divEvenement = document.createElement('div'); // Crée une division pour chaque événement
+        divEvenement.classList.add('event-item'); // Ajoute des styles à la division
 
-        // Transformation de la date au format texte en objet Date
-        const start = new Date(event.fields.start);
-
-        // Formatage de la date et de l'heure
+        // Récupère la date et l'heure pour chaque événement
+        const debut = new Date(evenement.fields.start);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = start.toLocaleDateString('fr-FR', options); // Formattage de la date
-        const formattedTime = start.toLocaleTimeString('fr-FR'); // Formattage de l'heure
+        const dateFormatee = debut.toLocaleDateString('fr-FR', options);
+        const heureFormatee = debut.toLocaleTimeString('fr-FR');
 
-        // Insertion des détails de l'événement dans la division créée
-        eventDiv.innerHTML = `
-            <h3>Événement ${event.pk}</h3>
-            <p>Stade : ${event.fields.stadium}</p>
-            <p>Début : ${formattedDate} - ${formattedTime}</p>
-            <p>Équipes : ${event.fields.team_home || 'À déterminer'} vs ${event.fields.team_away || 'À déterminer'}</p>
+        // Récupère les noms des stades et des équipes pour les événements
+        const nomStade = stades.find(stade => stade.pk === evenement.fields.stadium)?.fields.name || 'Inconnu';
+        const nomEquipeDomicile = equipes.find(equipe => equipe.pk === evenement.fields.team_home)?.fields.nickname || ' ?? ';
+        const nomEquipeExterieur = equipes.find(equipe => equipe.pk === evenement.fields.team_away)?.fields.nickname || ' ?? ';
+
+        // Crée la structure HTML pour afficher les détails des événements
+        divEvenement.innerHTML = `
+            <h3>Événement ${evenement.pk}</h3>
+            <p>Stade : ${nomStade}</p>
+            <p>Début : ${dateFormatee} - ${heureFormatee}</p>
+            <p>Équipes : ${nomEquipeDomicile} vs ${nomEquipeExterieur}</p>
         `;
 
-        eventsSection.appendChild(eventDiv); // Ajout de la division dans la section des événements
+        sectionEvenements.appendChild(divEvenement); // Ajoute les détails des événements à la section spécifique
     });
 }
