@@ -1,23 +1,49 @@
-
 html, body {
     margin: 0;
-}
-
-body {
-    color: white;
+    padding: 0;
     font-family: sans-serif;
-    background: black;
+    color: #fff;
+    background-color: #000;
 }
 
-header nav {
-    display: flex;
-}
-
-header nav a {
-    flex: 1;
-    height: 2em;
-    color: white;
-    line-height: 2em;
+header {
     text-align: center;
+    padding: 10px 0;
 }
 
+header img {
+    max-width: 100%;
+    height: auto;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+section {
+    padding: 20px;
+    margin: 20px 0;
+    border-bottom: 1px solid #777;
+}
+
+section h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
