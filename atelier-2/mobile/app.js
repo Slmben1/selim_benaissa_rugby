@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('http://127.0.0.1:8000/api/events')
         .then(response => response.json())  // Convertit la réponse en données JSON
         .then(data => {
-            // Effectue des requêtes parallèles pour obtenir les stades et les équipes
+            /* Effectue des requêtes parallèles pour obtenir les stades et les équipes avec des noms plutôt que des numéros (c'était galèèèère, 
+            merci au forum dev mozilla pour l'astuce !!)*/
             Promise.all([
                 fetch('http://127.0.0.1:8000/api/stadiums').then(response => response.json()),
                 fetch('http://127.0.0.1:8000/api/teams').then(response => response.json())
@@ -38,7 +39,7 @@ function afficherEvenements(evenements, stades, equipes) {
 
         // Crée la structure HTML pour afficher les détails des événements
         divEvenement.innerHTML = `
-            <h3>Événement ${evenement.pk}</h3>
+            <h3>Match ${evenement.pk}</h3>
             <p>Stade : ${nomStade}</p>
             <p>Début : ${dateFormatee} - ${heureFormatee}</p>
             <p>Équipes : ${nomEquipeDomicile} vs ${nomEquipeExterieur}</p>
