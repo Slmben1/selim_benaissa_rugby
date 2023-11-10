@@ -61,7 +61,6 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        # !!! A remplacer avec vos informations de connexion !!!
         'NAME': "djangoorm",
         "USER": "root",
         "PASSWORD": "root",

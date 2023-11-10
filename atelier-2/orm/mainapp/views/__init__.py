@@ -6,3 +6,4 @@ from .newsletter import *
 from .about import *
 from .update import *
 from .teams import *
+from .api import *
