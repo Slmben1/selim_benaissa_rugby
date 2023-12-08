@@ -6,25 +6,25 @@ const sectionResultats = document.querySelector("#results");
 //     appelerApi(resultat);
 // });
 
-const gestionnaireChargementFichier = () => {
-    const champFichier = document.querySelector("#fileInput");
-    const imageTelechargee = document.querySelector("#uploadedImage");
-
-    const fichier = champFichier.files[0];
-
-    const lecteur = new FileReader();
-    lecteur.onload = (e) => {
-        imageTelechargee.src = e.target.result;
-        imageTelechargee.style.display = "block";
-
-        scannerQR.scanImage(imageTelechargee)
-            .catch(erreur => {
-                console.error('Non, je ne lis pas ton QR là :', erreur);
-                sectionResultats.innerHTML = `Erreur : ${erreur}`;
-            });
-    };
-    lecteur.readAsDataURL(fichier);
-};
+const fileSelector = document.getElementById('file-selector');
+const fileQrResult = document.getElementById('file-qr-result');
+function setResult(label, result) {
+    console.log(result.data);
+    label.textContent = result.data;
+    label.style.color = 'teal';
+    clearTimeout(label.highlightTimeout);
+    label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+}
+// ####### File Scanning #######
+fileSelector.addEventListener('change', event => {
+    const file = fileSelector.files[0];
+    if (!file) {
+        return;
+    }
+    QrScanner.scanImage(file, { returnDetailedScanResult: true })
+        .then(result => setResult(fileQrResult, result))
+        .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+});
 
 const appelerApi = (idticket) => {
     fetch(`http://127.0.0.1:8000/api/tickets/${idticket}`)
@@ -47,3 +47,5 @@ const afficherInfosBillet = (infosBillet) => {
         <p>Prix : ${ticketFields.price} ${ticketFields.currency}</p>
     `;
 };
+//pr le file reader et le onload mettre un documetn.queryselec (#fileInput).addeventlistener("change"),()=>{
+   // lancer fonction}

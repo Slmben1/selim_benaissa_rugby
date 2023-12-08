@@ -11,21 +11,39 @@
         <img src="logo_horizontal.svg" alt="Rugby Tropical Cup Logo">
         <h1>Scanneur de billets</h1>
     </header>
+    <input type="file" id="file-selector">
+    <b> QR code détecté: </b>
+    <span id="file-qr-result">None</span>
 
-    <section id="scanner">
-        <!-- Change l'événement de onclick à onchange -->
-        <input type="file" accept="image/*" capture="camera" id="fileInput" onchange="gestionnaireChargementFichier()">
-        <img id="uploadedImage" style="display: none;">
-    </section>
+    <script src="qr-scanner.umd.min.js"></script>
+    <scrpit src="app.js"></scrpit>
+    <script>
 
-    <section id="results">
+        const fileSelector = document.getElementById('file-selector');
+        const fileQrResult = document.getElementById('file-qr-result');
 
-    </section>
+        function setResult(label, result) {
+            console.log(result.data);
+            label.textContent = result.data;
+            label.style.color = 'teal';
+            clearTimeout(label.highlightTimeout);
+            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+        }
 
-    <script type="module">
-        import QrScanner from "./qr-scanner.min.js"
+
+        // ####### File Scanning #######
+
+        fileSelector.addEventListener('change', event => {
+            const file = fileSelector.files[0];
+            if (!file) {
+                return;
+            }
+            QrScanner.scanImage(file, { returnDetailedScanResult: true })
+                .then(result => setResult(fileQrResult, result))
+                .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+        });
     </script>
-    <script src="./qr-scanner.umd.min.js"></script>
-    <script src="app.js"></script>
+
+</div>
 </body>
 </html>
