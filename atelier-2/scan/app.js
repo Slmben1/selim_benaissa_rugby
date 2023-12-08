@@ -1,32 +1,27 @@
-let scannerQR;
-const sectionResultats = document.querySelector("#results");
-
-// scannerQR = new QrScanner((resultat) => {
-//     sectionResultats.innerHTML = `Contenu du QR Code : ${resultat}`;
-//     appelerApi(resultat);
-// });
-
 const fileSelector = document.getElementById('file-selector');
-const fileQrResult = document.getElementById('file-qr-result');
-function setResult(label, result) {
-    console.log(result.data);
-    label.textContent = result.data;
-    label.style.color = 'teal';
-    clearTimeout(label.highlightTimeout);
-    label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-}
-// ####### File Scanning #######
-fileSelector.addEventListener('change', event => {
-    const file = fileSelector.files[0];
-    if (!file) {
-        return;
-    }
-    QrScanner.scanImage(file, { returnDetailedScanResult: true })
-        .then(result => setResult(fileQrResult, result))
-        .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
-});
+        const fileQrResult = document.getElementById('file-qr-result');
 
-const appelerApi = (idticket) => {
+        function setResult(label, result) {
+            console.log(result.data);
+            label.textContent = result.data;
+            label.style.color = 'teal';
+            clearTimeout(label.highlightTimeout);
+            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+        }
+
+
+
+        fileSelector.addEventListener('change', event => {
+            const file = fileSelector.files[0];
+            if (!file) {
+                return;
+            }
+            QrScanner.scanImage(file, { returnDetailedScanResult: true })
+                .then(result => setResult(fileQrResult, result))
+                .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+        });
+
+/*const appelerApi = (idticket) => {
     fetch(`http://127.0.0.1:8000/api/tickets/${idticket}`)
         .then(response => response.json())
         .then(data => {
@@ -48,4 +43,4 @@ const afficherInfosBillet = (infosBillet) => {
     `;
 };
 //pr le file reader et le onload mettre un documetn.queryselec (#fileInput).addeventlistener("change"),()=>{
-   // lancer fonction}
+   // lancer fonction}*/
