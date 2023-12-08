@@ -13,7 +13,13 @@
     </header>
     <input type="file" id="file-selector">
     <b> QR code détecté: </b>
-    <span id="file-qr-result">None</span>
+    <span id="file-qr-result">Aucun QR code</span>
+
+    <section id="results">
+        <p>Catégorie : <span id="category"></span></p>
+        <p>Siège : <span id="seat"></span></p>
+        <p>Prix : <span id="price"></span> <span id="currency"></span></p>
+    </section>
 
     <script src="qr-scanner.umd.min.js"></script>
     <script src="app.js"></script>

@@ -1,27 +1,19 @@
 const fileSelector = document.getElementById('file-selector');
-        const fileQrResult = document.getElementById('file-qr-result');
+const fileQrResult = document.getElementById('file-qr-result');
+const sectionResultats = document.getElementById('results'); // Ajout
 
-        function setResult(label, result) {
-            console.log(result.data);
-            label.textContent = result.data;
-            label.style.color = 'teal';
-            clearTimeout(label.highlightTimeout);
-            label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-        }
+function setResult(label, result) {
+    console.log(result.data);
+    label.textContent = result.data;
+    label.style.color = 'teal';
+    clearTimeout(label.highlightTimeout);
+    label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
 
+    // Appeler l'API et afficher les informations
+    appelerApi(result.data);
+}
 
-
-        fileSelector.addEventListener('change', event => {
-            const file = fileSelector.files[0];
-            if (!file) {
-                return;
-            }
-            QrScanner.scanImage(file, { returnDetailedScanResult: true })
-                .then(result => setResult(fileQrResult, result))
-                .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
-        });
-
-/*const appelerApi = (idticket) => {
+const appelerApi = (idticket) => {
     fetch(`http://127.0.0.1:8000/api/tickets/${idticket}`)
         .then(response => response.json())
         .then(data => {
@@ -35,12 +27,20 @@ const fileSelector = document.getElementById('file-selector');
 
 const afficherInfosBillet = (infosBillet) => {
     const ticketFields = infosBillet[0].fields;
-    
-    sectionResultats.innerHTML = `
-        <p>Catégorie : ${ticketFields.category}</p>
-        <p>Siège : ${ticketFields.seat}</p>
-        <p>Prix : ${ticketFields.price} ${ticketFields.currency}</p>
-    `;
+
+    // Afficher les informations dans la nouvelle section
+    document.getElementById('category').textContent = ticketFields.category;
+    document.getElementById('seat').textContent = ticketFields.seat;
+    document.getElementById('price').textContent = ticketFields.price;
+    document.getElementById('currency').textContent = ticketFields.currency;
 };
-//pr le file reader et le onload mettre un documetn.queryselec (#fileInput).addeventlistener("change"),()=>{
-   // lancer fonction}*/
+
+fileSelector.addEventListener('change', event => {
+    const file = fileSelector.files[0];
+    if (!file) {
+        return;
+    }
+    QrScanner.scanImage(file, { returnDetailedScanResult: true })
+        .then(result => setResult(fileQrResult, result))
+        .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+});
