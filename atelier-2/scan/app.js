@@ -21,7 +21,7 @@ const appelerApi = (idticket) => {
         })
         .catch(erreur => {
             console.error('Erreur lors de l\'appel API :', erreur);
-            sectionResultats.innerHTML = `Erreur lors de l'appel API : ${erreur}`;
+            sectionResultats.innerHTML = `VEUILLEZ ENTRER UN QR CODE CORRECT`;
         });
 };
 
