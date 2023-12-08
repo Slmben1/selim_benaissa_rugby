@@ -1,70 +1,49 @@
-const startScanner = (event) => {
-    // Empêcher le comportement par défaut du bouton
-    event.preventDefault();
+let scannerQR;
+const sectionResultats = document.querySelector("#results");
 
-    const fileInput = document.querySelector("#fileInput");
-    const uploadedImage = document.querySelector("#uploadedImage");
+// scannerQR = new QrScanner((resultat) => {
+//     sectionResultats.innerHTML = `Contenu du QR Code : ${resultat}`;
+//     appelerApi(resultat);
+// });
 
-    // Ajout d'un gestionnaire d'événements pour l'événement "change" du champ d'entrée de fichier
-    fileInput.addEventListener("change", handleFileUpload);
+const gestionnaireChargementFichier = () => {
+    const champFichier = document.querySelector("#fileInput");
+    const imageTelechargee = document.querySelector("#uploadedImage");
 
-    // Simuler un clic sur le champ d'entrée de fichier
-    fileInput.click();
-};
+    const fichier = champFichier.files[0];
 
-const handleFileUpload = () => {
-    const fileInput = document.querySelector("#fileInput");
-    const uploadedImage = document.querySelector("#uploadedImage");
-    const resultsSection = document.querySelector("#results");
+    const lecteur = new FileReader();
+    lecteur.onload = (e) => {
+        imageTelechargee.src = e.target.result;
+        imageTelechargee.style.display = "block";
 
-    const file = fileInput.files[0];
-
-    // Charger l'image dans la balise img
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        uploadedImage.src = e.target.result;
-        uploadedImage.style.display = "block";
+        scannerQR.scanImage(imageTelechargee)
+            .catch(erreur => {
+                console.error('Non, je ne lis pas ton QR là :', erreur);
+                sectionResultats.innerHTML = `Erreur : ${erreur}`;
+            });
     };
-    reader.readAsDataURL(file);
-
-    const qrScanner = new QrScanner();
-
-    qrScanner.scanImage(uploadedImage)
-        .then(result => {
-            console.log('Contenu du QR Code :', result);
-            resultsSection.innerHTML = `Contenu du QR Code : ${result}`;
-            callApi(result);
-        })
-        .catch(error => {
-            console.error('Erreur lors de la lecture du QR Code :', error);
-            resultsSection.innerHTML = `Erreur : ${error}`;
-        });
+    lecteur.readAsDataURL(fichier);
 };
 
-
-// Fonction pour appeler l'API avec l'ID du ticket
-const callApi = (ticketId) => {
-    fetch(`http://127.0.0.1:8000/api/tickets/${ticketId}`)
+const appelerApi = (idticket) => {
+    fetch(`http://127.0.0.1:8000/api/tickets/${idticket}`)
         .then(response => response.json())
         .then(data => {
-            displayTicketInfo(data);
+            afficherInfosBillet(data);
         })
-        .catch(error => {
-            console.error('Erreur lors de l\'appel API :', error);
-            resultsSection.innerHTML = `Erreur lors de l'appel API : ${error}`;
+        .catch(erreur => {
+            console.error('Erreur lors de l\'appel API :', erreur);
+            sectionResultats.innerHTML = `Erreur lors de l'appel API : ${erreur}`;
         });
 };
 
-// Fonction pour afficher les informations du ticket
-const displayTicketInfo = (ticketInfo) => {
-    const resultsSection = document.querySelector("#results");
+const afficherInfosBillet = (infosBillet) => {
+    const ticketFields = infosBillet[0].fields;
     
-    resultsSection.innerHTML = `
-        <p>Nom du stade : ${ticketInfo.stadium_name}</p>
-        <p>Date du match : ${ticketInfo.match_date}</p>
-        <p>Équipes : ${ticketInfo.team_home} vs ${ticketInfo.team_away}</p>
+    sectionResultats.innerHTML = `
+        <p>Catégorie : ${ticketFields.category}</p>
+        <p>Siège : ${ticketFields.seat}</p>
+        <p>Prix : ${ticketFields.price} ${ticketFields.currency}</p>
     `;
 };
-
-// Appel de la fonction startScanner lors du chargement complet du DOM
-document.addEventListener("DOMContentLoaded", startScanner);

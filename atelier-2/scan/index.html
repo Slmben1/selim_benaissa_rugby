@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Rugby Tropical Cup 2023</title>
 </head>
 <body>
     <header>
-        <img src="logo_horizontal.svg">
+        <img src="logo_horizontal.svg" alt="Rugby Tropical Cup Logo">
         <h1>Scanneur de billets</h1>
     </header>
 
     <section id="scanner">
-        <button id="start" onclick="startScanner(event)">Démarrer</button>
-        <input type="file" accept="image/*" capture="camera" id="fileInput" style="display: none;">
+        <!-- Change l'événement de onclick à onchange -->
+        <input type="file" accept="image/*" capture="camera" id="fileInput" onchange="gestionnaireChargementFichier()">
         <img id="uploadedImage" style="display: none;">
     </section>
 
@@ -22,7 +22,10 @@
 
     </section>
 
-    <script src="qr-scanner.umd.min.js"></script>
+    <script type="module">
+        import QrScanner from "./qr-scanner.min.js"
+    </script>
+    <script src="./qr-scanner.umd.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
