@@ -42,3 +42,4 @@ fileSelector.addEventListener('change', event => {
         .then(result => setResult(fileQrResult, result))
         .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
 });
+
