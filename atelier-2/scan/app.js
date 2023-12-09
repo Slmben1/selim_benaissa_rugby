@@ -9,7 +9,6 @@ function setResult(label, result) {
     clearTimeout(label.highlightTimeout);
     label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
 
-    // Appeler l'API et afficher les informations
     appelerApi(result.data);
 }
 
@@ -28,7 +27,6 @@ const appelerApi = (idticket) => {
 const afficherInfosBillet = (infosBillet) => {
     const ticketFields = infosBillet[0].fields;
 
-    // Afficher les informations dans la nouvelle section
     document.getElementById('category').textContent = ticketFields.category;
     document.getElementById('seat').textContent = ticketFields.seat;
     document.getElementById('price').textContent = ticketFields.price;
