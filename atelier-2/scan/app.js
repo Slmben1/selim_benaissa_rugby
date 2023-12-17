@@ -1,16 +1,22 @@
 const fileSelector = document.getElementById('file-selector');
 const fileQrResult = document.getElementById('file-qr-result');
-const sectionResultats = document.getElementById('results'); // Ajout
+const sectionResultats = document.getElementById('results');
+const resultsHeading = document.getElementById('results-heading'); 
 
 function setResult(label, result) {
-    console.log(result.data);
-    label.textContent = result.data;
-    label.style.color = 'teal';
+    const isValidQRCode = result && result.data;
+    const ticketNumber = isValidQRCode ? `Ticket n° : ${result.data}` : 'Aucun QR code';
+
+    label.textContent = ticketNumber;
+    label.style.color = isValidQRCode ? 'teal' : 'red';
     clearTimeout(label.highlightTimeout);
     label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
 
-    appelerApi(result.data);
+    if (isValidQRCode) {
+        appelerApi(result.data);
+    }
 }
+
 
 const appelerApi = (idticket) => {
     fetch(`http://127.0.0.1:8000/api/tickets/${idticket}`)
@@ -20,7 +26,7 @@ const appelerApi = (idticket) => {
         })
         .catch(erreur => {
             console.error('Erreur lors de l\'appel API :', erreur);
-            sectionResultats.innerHTML = `VEUILLEZ ENTRER UN QR CODE CORRECT`;
+            sectionResultats.innerHTML = `VEUILLEZ RELANCER LA PAGE ET ENTRER UN QR CODE CORRECT`;
         });
 };
 
@@ -40,6 +46,6 @@ fileSelector.addEventListener('change', event => {
     }
     QrScanner.scanImage(file, { returnDetailedScanResult: true })
         .then(result => setResult(fileQrResult, result))
-        .catch(e => setResult(fileQrResult, { data: e || 'No QR code found.' }));
+        .catch(e => setResult(fileQrResult, { data: e || 'Aucun QR code détecté' }));
 });
 
