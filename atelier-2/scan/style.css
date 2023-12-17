@@ -37,7 +37,6 @@ header h1 {
     outline: none;
 }
 
-
 #file-qr-result {
     display: block;
     margin: 20px auto;
@@ -67,10 +66,10 @@ header h1 {
     color: #333;
 }
 
-#rugby-ball-image {
+#rugby-ballon-image {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 5px;
     max-width: 50px;
     max-height: 50px;
 }
