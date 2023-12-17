@@ -8,7 +8,7 @@ html, body {
 
 header {
     text-align: center;
-    padding: 10px 0;
+    padding: 0;
 }
 
 header img {
@@ -55,3 +55,11 @@ h2 {
     margin: 10px 0;
     color: #ccc;
 }
+
+.ballon-image {
+    float: right; 
+    margin: 0px ;
+    width: 35px;
+    height: auto;
+}
+
