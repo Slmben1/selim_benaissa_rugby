@@ -25,9 +25,9 @@ header h1 {
     display: block;
     margin: 20px auto;
     padding: 10px;
-    background-color: #f9533d;
+    background-color: black;
     color: white;
-    border: none;
+    border: 2px solid #555;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
@@ -53,21 +53,31 @@ header h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 10px;
-    color: #f9533d; /* Couleur orange, à ajuster si besoin */
+    color: #f9533d;
 }
 
 #results {
-    background-color: #fff; /* Fond blanc */
-    border: 2px solid #f9533d; /* Bordure orange */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 20px; /* Espace intérieur */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    position: relative;
+    background-color: #fff;
+    border: 2px solid #f9533d;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
-    color: #333; /* Couleur du texte, à ajuster si besoin */
+    color: #333;
 }
 
-#results p {
-    margin: 10px 0;
+#rugby-ball-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 50px;
+    max-height: 50px;
 }
+
+#results-info {
+    margin-top: 60px;
+}
+
 
 
