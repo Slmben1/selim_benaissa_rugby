@@ -26,7 +26,11 @@ const appelerApi = (idticket) => {
         })
         .catch(erreur => {
             console.error('Erreur lors de l\'appel API :', erreur);
-            sectionResultats.innerHTML = `VEUILLEZ RELANCER LA PAGE ET ENTRER UN QR CODE CORRECT`;
+            
+            fileSelector.value = ''; // Clear the file input value to allow rescanning
+            document.getElementById('category').textContent = "erreur lors de l'appel API";
+            document.getElementById('seat').textContent = "erreur lors de l'appel API";
+            document.getElementById('price').textContent = "erreur lors de l'appel API";
         });
 };
 
